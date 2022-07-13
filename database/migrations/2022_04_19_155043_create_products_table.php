@@ -19,8 +19,7 @@ class CreateProductsTable extends Migration
             $table->string("option");
 
            // $table->foreignId("order_id")->constrained("orders")->onDelete("cascade");
-            $table->unsignedInteger('order_id');
-            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+
 
             $table->timestamps();
 

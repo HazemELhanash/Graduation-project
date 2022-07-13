@@ -4,17 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Client;
+use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Driver;
 use App\Models\Product;
 use App\Models\Car;
 use App\Models\Trunk;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Nicolaslopezj\Searchable\SearchableTrait;
 
 class Shipment extends Model
 {
+    // use SearchableTrait;
     use HasFactory;
+    use SoftDeletes;
     protected $table="shipment";
     protected $fillable=[
         'load_place',
@@ -34,8 +37,11 @@ class Shipment extends Model
         'driver_id',
         'car_id',
         'trunk_id',
-        'client_id'
+        'client_id',
+        'status'
+
     ];
+    protected $dates=['deleted_at'];
 
     public function order(){
 
@@ -46,15 +52,9 @@ class Shipment extends Model
 
         return $this->belongsTo(Product::class,'product_id');
     }
-    /*
-
-    public function client(){
-
-        return $this->belongsTo(Client::class, 'client_id');
-    }
 
 
-      public function driver(){
+    public function driver(){
 
         return $this->belongsTo(Driver::class,'driver_id');
     }
@@ -63,10 +63,16 @@ class Shipment extends Model
 
         return $this->belongsTo(Car::class,'car_id');
     }
+
+    public function customer(){
+
+        return $this->belongsTo(Customer::class, 'client_id');
+    }
+
     public function trunk(){
 
         return $this->belongsTo(Trunk::class,'trunk_id');
     }
-    */
+
 
 }

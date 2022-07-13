@@ -19,6 +19,9 @@ class CreateDriversTable extends Migration
             $table->string("phone");
             $table->string("address");
             $table->float("money");
+            // $table->integer("supply");
+            // $table->integer("rest");
+            // $table->integer("shipment");
             $table->timestamps();
         });
     }

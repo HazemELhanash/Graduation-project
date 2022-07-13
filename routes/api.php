@@ -20,16 +20,22 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::post('register','App\Http\Controllers\authController@register' );
-Route::post('login', 'App\Http\Controllers\authController@login');
-
+Route::post('register','App\Http\Controllers\authController@register' )->name("register");
+Route::post('login', 'App\Http\Controllers\authController@login')->name("login");
+Route::get("/logout" , "App\Http\Controllers\authController@logout")->name("logout");
 
 Route::middleware('auth:api')->group(function(){
-    Route::resource("orders" , 'App\Http\Controllers\OrderController');
-    Route::resource("trunks" , 'App\Http\Controllers\TrunkController');
-    Route::resource("drivers" , 'App\Http\Controllers\DriverController');
-    Route::resource("clients" , 'App\Http\Controllers\ClientController');
-    Route::resource("cars" , 'App\Http\Controllers\CarController');
+
+    Route::resource("orders" , 'App\Http\Controllers\OrderController')->middleware("checkAdmin");
+
+    Route::middleware("checkAssistant")->group(function(){
+        Route::resource("trunks" , 'App\Http\Controllers\TrunkController');
+        Route::resource("drivers" , 'App\Http\Controllers\DriverController');
+        Route::resource("clients" , 'App\Http\Controllers\ClientController');
+        Route::resource("cars" , 'App\Http\Controllers\CarController');
+        Route::resource("shipments" , 'App\Http\Controllers\ShipmentController');
+        Route::resource("products" , 'App\Http\Controllers\productController');
+    });
     Route::resource("shipments" , 'App\Http\Controllers\ShipmentController');
     Route::resource("products" , 'App\Http\Controllers\productController');
 });
